@@ -3,22 +3,23 @@ package ar.edu.unahur.obj2.observer.subastadores;
 import ar.edu.unahur.obj2.observer.observer.IObservador;
 import ar.edu.unahur.obj2.observer.ofertas.Oferta;
 import ar.edu.unahur.obj2.observer.productos.ProductoSubastado;
+import ar.edu.unahur.obj2.observer.subastadores.comportamientos.IComportamientoSubastador;
 
 public class Subastador implements IObservador{
     private final String nombre;
     private  Oferta ultimaOferta = null;
+    private IComportamientoSubastador comportamiento;
 
     
-    
-    public Subastador(String nombre) {
+
+   public Subastador(String nombre, IComportamientoSubastador comportamiento) {
         this.nombre = nombre;
+        this.comportamiento = comportamiento;
     }
 
+
     public void realizarOferta(ProductoSubastado producto){
-        Integer valor = ultimaOferta == null ? 10 : ultimaOferta.getValor() + 10;
-        Oferta oferta = new Oferta(this, valor);
-        producto.agregarOferta(oferta);
-        producto.notificar(oferta);
+        comportamiento.realizarOferta(this, producto);
     }
 
     @Override
@@ -40,5 +41,5 @@ public class Subastador implements IObservador{
 
     
 
-
+    
 }
